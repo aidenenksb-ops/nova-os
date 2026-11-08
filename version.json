@@ -1,0 +1,18 @@
+{
+  "version": "4.0.0",
+  "releaseNotes": "Added a NOVA OS software update checker in Settings.",
+  "history": [
+    {
+      "version": "4.0.0",
+      "notes": "Software update checker and update history"
+    },
+    {
+      "version": "3.0.0",
+      "notes": "Browser, camera and installable web app improvements"
+    },
+    {
+      "version": "2.0.0",
+      "notes": "Music, Settings, Notes, Calculator and Gallery"
+    }
+  ]
+}

@@ -34,10 +34,26 @@
       <button class="app" data-app="Settings"><span class="app-icon">⚙</span><span class="app-name">Settings</span></button>
     </section>
     <nav class="dock"><button class="app" data-app="Phone"><span class="app-icon">⌕</span><span class="app-name">Phone</span></button><button class="app" data-app="Browser"><span class="app-icon">◌</span><span class="app-name">Browser</span></button><button class="app" data-app="Music"><span class="app-icon">♫</span><span class="app-name">Music</span></button><button class="app" data-app="Settings"><span class="app-icon">⚙</span><span class="app-name">Settings</span></button></nav>
-    <div class="footer">NOVA OS · CONCEPT 002</div>
+    <div class="footer">NOVA OS · VERSION 4.0.0</div>
   </section>
   <section id="Music" class="view app-view"><div class="app-head"><button class="back" data-home>←</button><h1>♫ Music</h1></div><div class="app-card"><div class="widget-label">YOUR LIBRARY</div><h2 id="trackName">No track selected</h2><p class="muted">Choose an audio file from your device to play it here.</p><label class="file-button">＋ Choose audio<input id="audioFile" type="file" accept="audio/*" hidden></label><audio id="player" controls></audio><p class="small">Music plays locally in your browser. Your files are not uploaded.</p></div></section>
-  <section id="Settings" class="view app-view"><div class="app-head"><button class="back" data-home>←</button><h1>⚙ Settings</h1></div><div class="app-card"><div class="widget-label">DISPLAY</div><div class="setting-line"><span>Screen brightness</span><input id="brightness" type="range" min=".65" max="1.15" step=".01" value="1"></div><div class="setting-line"><span>Accent colour</span><span class="small">Choose a theme</span></div><div class="swatches"><button class="swatch" data-theme="blue" style="background:linear-gradient(135deg,#59d8ff,#a77bff)" aria-label="Blue and purple"></button><button class="swatch" data-theme="pink" style="background:linear-gradient(135deg,#ff77c8,#9b7bff)" aria-label="Pink and violet"></button><button class="swatch" data-theme="green" style="background:linear-gradient(135deg,#67f0c1,#4d9dff)" aria-label="Mint and blue"></button></div></div><div class="app-card"><div class="widget-label">ABOUT</div><h2>NOVA OS</h2><p class="muted">Concept 002 · A custom web-based interface running on top of iOS. It does not replace or modify iOS.</p><p class="small">Made for the NOVA project.</p></div></section>
+  <section id="Settings" class="view app-view"><div class="app-head"><button class="back" data-home>←</button><h1>⚙ Settings</h1></div><div class="app-card"><div class="widget-label">DISPLAY</div><div class="setting-line"><span>Screen brightness</span><input id="brightness" type="range" min=".65" max="1.15" step=".01" value="1"></div><div class="setting-line"><span>Accent colour</span><span class="small">Choose a theme</span></div><div class="swatches"><button class="swatch" data-theme="blue" style="background:linear-gradient(135deg,#59d8ff,#a77bff)" aria-label="Blue and purple"></button><button class="swatch" data-theme="pink" style="background:linear-gradient(135deg,#ff77c8,#9b7bff)" aria-label="Pink and violet"></button><button class="swatch" data-theme="green" style="background:linear-gradient(135deg,#67f0c1,#4d9dff)" aria-label="Mint and blue"></button></div></div>
+  <div class="app-card" id="softwareUpdateCard">
+    <div class="widget-label">SYSTEM</div>
+    <h2 style="margin:8px 0 5px">Software Update</h2>
+    <p class="muted" id="updateStatus" aria-live="polite">NOVA OS version 4.0.0. Check whether a newer version is available.</p>
+    <div class="row" style="margin-top:12px">
+      <button class="primary" id="checkUpdates" type="button">Check for Updates</button>
+      <button class="secondary" id="installUpdate" type="button" hidden>Install Update</button>
+    </div>
+    <div class="setting-line" style="margin-top:16px">
+      <span>Check automatically</span>
+      <input id="autoUpdates" type="checkbox" checked aria-label="Check for updates automatically">
+    </div>
+    <div class="install-hint" id="updateNotes">Current version: 4.0.0</div>
+    <div class="small" id="updateHistory" style="margin-top:12px">Update history: Version 4.0.0 — Software Update settings added.</div>
+  </div>
+  <div class="app-card"><div class="widget-label">ABOUT</div><h2>NOVA OS</h2><p class="muted">Version 4.0.0 · A custom web-based interface running on top of iOS. It does not replace or modify iOS.</p><p class="small">Made for the NOVA project.</p></div></section>
   <section id="Notes" class="view app-view"><div class="app-head"><button class="back" data-home>←</button><h1>▤ Notes</h1></div><div class="app-card"><div class="widget-label">QUICK NOTE</div><textarea id="notesText" placeholder="Write something..." aria-label="Your note"></textarea><div class="row" style="margin-top:10px"><button class="primary" id="saveNote">Save note</button><button class="secondary" id="clearNote">Clear</button></div><div class="note-status" id="noteStatus">Notes are saved on this device.</div></div></section>
   <section id="Calculator" class="view app-view"><div class="app-head"><button class="back" data-home>←</button><h1>＋ Calculator</h1></div><div class="app-card"><div class="calc-display" id="calcDisplay">0</div><div class="calc-grid" id="calcKeys"><button class="key" data-key="C">C</button><button class="key" data-key="±">±</button><button class="key" data-key="%">%</button><button class="key op" data-key="÷">÷</button><button class="key" data-key="7">7</button><button class="key" data-key="8">8</button><button class="key" data-key="9">9</button><button class="key op" data-key="×">×</button><button class="key" data-key="4">4</button><button class="key" data-key="5">5</button><button class="key" data-key="6">6</button><button class="key op" data-key="−">−</button><button class="key" data-key="1">1</button><button class="key" data-key="2">2</button><button class="key" data-key="3">3</button><button class="key op" data-key="+">+</button><button class="key" data-key="0" style="grid-column:span 2">0</button><button class="key" data-key=".">.</button><button class="key equal" data-key="=">=</button></div></div></section>
   <section id="Gallery" class="view app-view"><div class="app-head"><button class="back" data-home>←</button><h1>▧ Gallery</h1></div><div class="app-card"><div class="widget-label">YOUR PHOTOS</div><p class="muted">Choose photos from your device to preview them here.</p><label class="file-button">＋ Add photos<input id="photoFiles" type="file" accept="image/*" multiple hidden></label><div class="media-grid" id="photoGrid" style="margin-top:15px"></div><div class="small" style="margin-top:10px">Photos are previewed locally and aren't uploaded.</div></div></section>
@@ -50,6 +66,25 @@
 <script>
 (function(){
  const $=id=>document.getElementById(id);let toastTimer;function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),1900)}
+ const CURRENT_VERSION='4.0.0';
+ const VERSION_URL='./version.json';
+ let latestVersion=CURRENT_VERSION;
+ function versionParts(v){return String(v||'0').split('.').map(n=>parseInt(n,10)||0)}
+ function isNewer(remote,current){const a=versionParts(remote),b=versionParts(current);for(let i=0;i<Math.max(a.length,b.length);i++){if((a[i]||0)>(b[i]||0))return true;if((a[i]||0)<(b[i]||0))return false}return false}
+ async function checkForUpdates(silent=false){
+   const status=$('updateStatus'),notes=$('updateNotes'),historyBox=$('updateHistory'),install=$('installUpdate');
+   if(!status)return;status.textContent='Checking GitHub for updates…';install.hidden=true;
+   try{const response=await fetch(VERSION_URL+'?t='+Date.now(),{cache:'no-store'});if(!response.ok)throw new Error('Update server unavailable');const data=await response.json();latestVersion=String(data.version||CURRENT_VERSION);
+     if(isNewer(latestVersion,CURRENT_VERSION)){status.textContent='Version '+latestVersion+' is available.';notes.textContent=(data.releaseNotes||'A newer version is ready.')+' Publish the new website files to GitHub Pages before installing.';install.hidden=false;}
+     else{status.textContent='You are up to date. NOVA OS '+CURRENT_VERSION+' is the latest version.';notes.textContent='Current version: '+CURRENT_VERSION+(data.releaseNotes?' · '+data.releaseNotes:'');}
+     if(Array.isArray(data.history)&&data.history.length)historyBox.textContent='Update history: '+data.history.map(x=>'Version '+x.version+' — '+x.notes).join(' | ');
+   }catch(err){status.textContent='Could not check for updates. Check your internet connection and try again.';notes.textContent='Update checks need an internet connection to reach the NOVA GitHub repository.';if(!silent)toast('Update check failed');}
+ }
+ $('checkUpdates').addEventListener('click',()=>checkForUpdates(false));
+ $('autoUpdates').checked=localStorage.getItem('nova-auto-updates')!=='off';
+ $('autoUpdates').addEventListener('change',e=>{localStorage.setItem('nova-auto-updates',e.target.checked?'on':'off');toast(e.target.checked?'Automatic checks enabled':'Automatic checks disabled')});
+ $('installUpdate').addEventListener('click',async()=>{const status=$('updateStatus');status.textContent='Refreshing NOVA OS…';try{if('serviceWorker'in navigator){const reg=await navigator.serviceWorker.getRegistration();if(reg){await reg.update();if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'});}}}catch(e){}setTimeout(()=>location.reload(),900);});
+
  function updateClock(){const n=new Date();$('clock').textContent=n.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',hour12:false});$('date').textContent=n.toLocaleDateString([],{weekday:'long',day:'numeric',month:'long'});}
  function stopCamera(){const video=$('cameraVideo');if(video&&video.srcObject){video.srcObject.getTracks().forEach(t=>t.stop());video.srcObject=null;}if($('takePhoto'))$('takePhoto').disabled=true;}
  function showView(id){if(id!=='Camera')stopCamera();document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const target=$(id);if(target)target.classList.add('active');window.scrollTo(0,0)}
@@ -64,7 +99,7 @@
  $('stopCamera').addEventListener('click',()=>{stopCamera();$('cameraStatus').textContent='Camera stopped.';});
  $('searchForm').addEventListener('submit',e=>{e.preventDefault();const q=$('searchQuery').value.trim();if(!q)return;let url;if(/^https?:\/\//i.test(q)){url=q;}else if(/^[a-z0-9.-]+\.[a-z]{2,}([/:?#].*)?$/i.test(q)&&!q.includes(' ')){url='https://'+q;}else{url='https://www.google.com/search?q='+encodeURIComponent(q);}window.location.assign(url);});
  $('browserBack').addEventListener('click',()=>{if(history.length>1)history.back();else showView('home');});$('browserHome').addEventListener('click',()=>{showView('home');});document.querySelectorAll('.quick-link').forEach(b=>b.addEventListener('click',()=>window.location.assign(b.dataset.url)));document.querySelectorAll('[data-external]').forEach(b=>b.addEventListener('click',()=>{const scheme=b.dataset.external;window.location.href=scheme}));
- if(navigator.getBattery){navigator.getBattery().then(b=>{function battery(){ $('battery').textContent=Math.round(b.level*100)+'%'}battery();b.addEventListener('levelchange',battery)}).catch(()=>{$('battery').textContent='iPhone'})}else $('battery').textContent='iPhone';updateClock();setInterval(updateClock,1000);
+ if(navigator.getBattery){navigator.getBattery().then(b=>{function battery(){ $('battery').textContent=Math.round(b.level*100)+'%'}battery();b.addEventListener('levelchange',battery)}).catch(()=>{$('battery').textContent='iPhone'})}else $('battery').textContent='iPhone';updateClock();setInterval(updateClock,1000);if($('autoUpdates')&&$('autoUpdates').checked){setTimeout(()=>checkForUpdates(true),1200);}
  if('serviceWorker' in navigator && location.protocol==='https:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
 })();
 </script>
