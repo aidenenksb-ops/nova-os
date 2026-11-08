@@ -1,0 +1,14 @@
+{
+  "name": "NOVA OS",
+  "short_name": "NOVA",
+  "description": "A futuristic personal interface for your iPhone.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080914",
+  "theme_color": "#080914",
+  "icons": [
+    {"src": "nova-icon.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "nova-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}
+  ]
+}
