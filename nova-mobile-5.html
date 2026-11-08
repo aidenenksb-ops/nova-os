@@ -1,1 +1,647 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#080914">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NOVA">
+<title>NOVA Mobile 5.0</title>
+<style>
+:root{
+ --bg:#080914;--panel:rgba(22,25,48,.88);--line:rgba(145,157,255,.2);
+ --blue:#59d8ff;--purple:#a77bff;--white:#f4f5ff;--muted:#9298b8;
+ --wallpaper:radial-gradient(ellipse at 15% 10%,#26366c 0%,transparent 45%),radial-gradient(ellipse at 90% 70%,#40205f 0%,transparent 45%),linear-gradient(155deg,#080914,#10132a);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#080914;color:var(--white);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}
+body{overflow-x:hidden;background:var(--wallpaper);background-attachment:fixed}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:active{transform:scale(.97)}
+#device{max-width:430px;min-height:100vh;margin:auto;position:relative;overflow:hidden}
+.screen{min-height:100vh;padding:env(safe-area-inset-top,12px) 17px calc(28px + env(safe-area-inset-bottom,0px));}
+.hidden{display:none!important}
+.glass{background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 35px #0004;backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px)}
+/* BOOT */
+#boot{position:fixed;inset:0;z-index:100;background:#070812;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .7s}
+.boot-logo{font-size:46px;font-weight:900;letter-spacing:14px;color:var(--blue);text-shadow:0 0 30px #59d8ff}
+.boot-orb{width:90px;height:90px;border-radius:50%;margin-bottom:30px;background:radial-gradient(circle at 30% 25%,white,var(--blue) 20%,#6955d9 60%,#15142e 78%);box-shadow:0 0 45px #59d8ff88;animation:pulse 1.5s infinite alternate}
+.boot-line{width:150px;height:3px;background:#252944;border-radius:5px;margin-top:30px;overflow:hidden}
+.boot-line:after{content:"";display:block;height:100%;width:40%;background:var(--blue);animation:load 1.4s ease-in-out forwards}
+@keyframes pulse{to{transform:scale(1.12);filter:hue-rotate(25deg)}}
+@keyframes load{to{width:100%}}
+/* LOCK */
+#lock{position:fixed;inset:0;z-index:90;background:var(--wallpaper);display:flex;flex-direction:column;align-items:center;text-align:center;padding:70px 25px 40px}
+.lock-brand{font-size:13px;letter-spacing:7px;color:var(--blue);font-weight:800}
+.lock-time{font-size:76px;font-weight:200;letter-spacing:-5px;margin-top:80px}
+.lock-date{font-size:15px;color:#c2c8e5;margin-top:4px}
+.lock-orb{width:75px;height:75px;border-radius:50%;margin-top:65px;background:radial-gradient(circle at 30% 25%,white,var(--blue) 22%,#6750d7 65%,#15142e);box-shadow:0 0 35px #59d8ff66}
+.lock-message{color:#b4bad7;font-size:12px;margin-top:18px}
+.unlock{margin-top:auto;width:100%;max-width:260px;border:1px solid #79dfff66;background:linear-gradient(120deg,#18799d,#6546a5);padding:16px;border-radius:17px;font-weight:700}
+.lock-small{font-size:10px;color:#777f9e;margin-top:15px}
+/* HOME */
+.topbar{display:flex;justify-content:space-between;align-items:center;padding-top:7px;font-size:11px;color:#dfe5ff}
+.brand{font-weight:900;letter-spacing:5px;color:var(--blue);text-shadow:0 0 14px #59d8ff99}
+.status{color:#d9dcf6}
+.hero{margin-top:34px}
+.greeting{font-size:11px;letter-spacing:2px;color:var(--muted)}
+.clock{font-size:62px;font-weight:200;letter-spacing:-4px;line-height:1.15}
+.date{font-size:13px;color:#b5bbd8;margin-top:4px}
+.widget{padding:16px;margin-top:23px;display:flex;justify-content:space-between;align-items:center}
+.widget-label{font-size:10px;letter-spacing:2px;color:#aeb6da;text-transform:uppercase}
+.widget-title{font-size:16px;font-weight:650;margin-top:7px}
+.widget-sub{font-size:11px;color:var(--muted);margin-top:5px}
+.orb{width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d4f8ff,var(--blue) 25%,#6b62e8 60%,#211c54 76%);box-shadow:0 0 23px #59d8ff61}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:26px 2px 14px}
+.section-head strong{font-size:12px;letter-spacing:2px}
+.section-head span{font-size:10px;color:var(--muted)}
+.apps{display:grid;grid-template-columns:repeat(4,1fr);gap:21px 8px}
+.app{border:0;background:transparent;padding:0;text-align:center;min-width:0}
+.app-icon{width:55px;height:55px;margin:0 auto 7px;border-radius:17px;display:grid;place-items:center;font-size:25px;background:linear-gradient(145deg,#425293aa,#221c4ddd);border:1px solid #9ba9ff40;box-shadow:0 7px 18px #0004,inset 0 1px #ffffff1f}
+.app-name{font-size:10px;color:#d6daf2}
+.dock{margin-top:28px;padding:12px 8px;border-radius:23px;background:#1c1f3bc9;border:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.dock .app-icon{width:48px;height:48px;border-radius:15px}
+.dock .app-name{display:none}
+.footer{text-align:center;color:#69708f;font-size:9px;letter-spacing:2px;margin-top:19px}
+/* APP VIEWS */
+.view{display:none;min-height:80vh}
+.view.active{display:block}
+.app-head{display:flex;align-items:center;gap:12px;margin:13px 0 22px}
+.app-head h1{font-size:23px;margin:0;font-weight:650}
+.back,.secondary{border:1px solid var(--line);background:#ffffff0c;border-radius:13px;padding:11px 14px}
+.app-card{padding:17px;margin:12px 0}
+.muted{color:var(--muted);font-size:13px;line-height:1.5}
+.small{font-size:11px;color:var(--muted)}
+.primary{border:1px solid #7bdcff55;border-radius:13px;padding:12px 15px;background:linear-gradient(130deg,#236e9b,#58419a)}
+.field,textarea{width:100%;border:1px solid var(--line);border-radius:12px;background:#080c20;padding:12px;outline:none}
+textarea{min-height:180px;resize:vertical}
+.row{display:flex;gap:9px;align-items:center;margin-top:10px}
+.row>*{flex:1;min-width:0}
+.file-button{display:inline-block;border:1px solid var(--line);background:#ffffff0b;border-radius:12px;padding:12px 15px}
+.calc-display{padding:20px 12px;text-align:right;font-size:34px;min-height:75px;background:#080c20;border:1px solid var(--line);border-radius:15px;margin-bottom:12px;overflow:hidden}
+.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.key{border:1px solid var(--line);border-radius:13px;padding:16px 5px;background:#ffffff0c;font-size:20px}
+.key.op{color:var(--blue)}
+.key.equal{background:linear-gradient(135deg,#167da0,#6040a2)}
+.setting-line{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:17px 0;font-size:13px}
+.setting-line input[type=range]{width:48%}
+.swatches{display:flex;gap:12px;margin-top:13px}
+.swatch{width:35px;height:35px;border-radius:50%;border:2px solid #ffffff88}
+.wallpapers{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.wallpaper-choice{height:65px;border:2px solid #ffffff22;border-radius:13px}
+.media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.media-grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+.file-item{padding:12px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;font-size:12px;overflow-wrap:anywhere}
+.file-item button{margin-left:auto}
+.preview{max-width:100%;max-height:300px;border-radius:12px;margin-top:12px}
+.camera-video{width:100%;min-height:180px;background:#050711;border-radius:15px}
+.toast{position:fixed;z-index:120;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;pointer-events:none;padding:12px 17px;border:1px solid var(--line);border-radius:15px;background:#13162df5;font-size:12px;transition:.25s;max-width:90%;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+/* PANELS */
+.panel{position:fixed;z-index:70;inset:0;background:#080914ed;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);padding:45px 20px 30px;display:none}
+.panel.open{display:block}
+.panel-title{font-size:22px;font-weight:700;margin:8px 0 22px}
+.panel-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.panel-button{padding:19px 12px;text-align:left;border:1px solid var(--line);border-radius:17px;background:#222747}
+.panel-button strong{display:block;margin-top:8px;font-size:13px}
+.panel-button span{font-size:22px}
+.panel-close{margin-top:20px;width:100%;padding:14px;border-radius:14px;border:1px solid var(--line);background:#ffffff10}
+.notification{padding:15px;margin:10px 0;font-size:13px}
+.notification small{display:block;color:var(--muted);margin-top:5px}
+.profile-avatar{width:65px;height:65px;border-radius:50%;display:grid;place-items:center;font-size:28px;background:linear-gradient(140deg,#287eac,#6946a7);margin:auto}
+.store-app{padding:14px;border:1px solid var(--line);border-radius:16px;margin:10px 0;display:flex;align-items:center;gap:12px}
+.store-app .store-icon{font-size:27px}
+.store-app button{margin-left:auto}
+.scanline{position:fixed;inset:0;pointer-events:none;opacity:.035;background:repeating-linear-gradient(to bottom,transparent 0 3px,#a0b4ff1f 4px);z-index:5}
+</style>
+</head>
+<body>
+<div id="device">
+ <div id="boot">
+  <div class="boot-orb"></div>
+  <div class="boot-logo">NOVA</div>
+  <div style="font-size:10px;letter-spacing:4px;color:#8991b6;margin-top:10px">MOBILE SYSTEM 5.0</div>
+  <div class="boot-line"></div>
+  <div style="font-size:10px;color:#737b9e;margin-top:16px">INITIALISING SYSTEM</div>
+ </div>
+
+ <section id="lock">
+  <div class="lock-brand">N O V A</div>
+  <div class="lock-time" id="lockClock">--:--</div>
+  <div class="lock-date" id="lockDate"></div>
+  <div class="lock-orb"></div>
+  <div class="lock-message">Your space. Your system.</div>
+  <button class="unlock" id="unlock">UNLOCK NOVA ↗</button>
+  <div class="lock-small">NOVA MOBILE 5.0 · IPHONE EDITION</div>
+ </section>
+
+ <main class="screen">
+  <section id="home" class="view active">
+   <div class="topbar">
+    <span class="brand">NOVA</span>
+    <span class="status" id="statusText">● Wi-Fi &nbsp; ▰ iPhone</span>
+   </div>
+   <div class="hero">
+    <div class="greeting" id="greeting">WELCOME BACK</div>
+    <div class="clock" id="clock">--:--</div>
+    <div class="date" id="date"></div>
+   </div>
+   <div class="widget glass">
+    <div>
+     <div class="widget-label">SYSTEM STATUS</div>
+     <div class="widget-title">All systems ready</div>
+     <div class="widget-sub">NOVA Mobile · Version 5.0</div>
+    </div>
+    <div class="orb"></div>
+   </div>
+   <div class="section-head"><strong>APPLICATIONS</strong><span>SELECT TO OPEN</span></div>
+   <div class="apps">
+    <button class="app" data-app="Files"><span class="app-icon">📁</span><span class="app-name">Files</span></button>
+    <button class="app" data-app="Camera"><span class="app-icon">◉</span><span class="app-name">Camera</span></button>
+    <button class="app" data-app="Gallery"><span class="app-icon">▧</span><span class="app-name">Gallery</span></button>
+    <button class="app" data-app="Music"><span class="app-icon">♫</span><span class="app-name">Music</span></button>
+    <button class="app" data-app="Notes"><span class="app-icon">▤</span><span class="app-name">Notes</span></button>
+    <button class="app" data-app="Calculator"><span class="app-icon">＋</span><span class="app-name">Calculator</span></button>
+    <button class="app" data-app="Browser"><span class="app-icon">◎</span><span class="app-name">Browser</span></button>
+    <button class="app" data-app="Settings"><span class="app-icon">⚙</span><span class="app-name">Settings</span></button>
+    <button class="app" data-app="App Store"><span class="app-icon">▣</span><span class="app-name">App Store</span></button>
+    <button class="app" data-app="Messages"><span class="app-icon">✉</span><span class="app-name">Messages</span></button>
+    <button class="app" data-app="Phone"><span class="app-icon">⌕</span><span class="app-name">Phone</span></button>
+    <button class="app" data-app="About"><span class="app-icon">✦</span><span class="app-name">About</span></button>
+   </div>
+   <nav class="dock">
+    <button class="app" data-app="Phone"><span class="app-icon">⌕</span><span class="app-name">Phone</span></button>
+    <button class="app" data-app="Browser"><span class="app-icon">◎</span><span class="app-name">Browser</span></button>
+    <button class="app" data-app="Music"><span class="app-icon">♫</span><span class="app-name">Music</span></button>
+    <button class="app" data-app="Settings"><span class="app-icon">⚙</span><span class="app-name">Settings</span></button>
+   </nav>
+   <div class="row">
+    <button class="secondary" id="openControl">☷ Control Centre</button>
+    <button class="secondary" id="openNotifications">♧ Notifications</button>
+   </div>
+   <div class="footer">NOVA OS · MOBILE 5.0.0</div>
+  </section>
+
+  <section id="Files" class="view">
+   <div class="app-head"><button class="back" data-home>←</button><h1>📁 Files</h1></div>
+   <div class="app-card glass">
+    <div class="widget-label">ON THIS IPHONE</div>
+    <h3>Your files</h3>
+    <p class="muted">Choose files from your iPhone to view them here. Files stay on your device unless you choose to share them.</p>
+    <label class="file-button">＋ Import files<input id="filePicker" type="file" multiple hidden></label>
+    <div id="fileList" style="margin-top:15px"><div class="muted">No files imported yet.</div></div>
+    <div id="filePreview"></div>
+   </div>
+   <div class="app-card glass">
+    <div class="widget-label">FILE MANAGER</div>
+    <p class="muted">This version can open files you select, but browser security does not allow it to browse all your iPhone storage automatically.</p>
+   </div>
+  </section>
+
+  <section id="Notes" class="view">
+   <div class="app-head"><button class="back" data-home>←</button><h1>▤ Notes</h1></div>
+   <div class="app-card glass">
+    <div class="widget-label">QUICK NOTE</div>
+    <textarea id="notesText" placeholder="Write something..."></textarea>
+    <div class="small" id="noteStatus">Automatically saved on this device.</div>
+    <div class="row"><button class="primary" id="saveNote">Save note</button><button class="secondary" id="clearNote">Clear</button></div>
+   </div>
+  </section>
+
+  <section id="Calculator" class="view">
+   <div class="app-head"><button class="back" data-home>←</button><h1>＋ Calculator</h1></div>
+   <div class="app-card glass">
+    <div class="calc-display" id="calcDisplay">0</div>
+    <div class="calc-grid" id="calcKeys">
+     <button class="key" data-key="C">C</button><button class="key" data-key="±">±</button><button class="key" data-key="%">%</button><button class="key op" data-key="÷">÷</button>
+     <button class="key" data-key="7">7</button><button class="key" data-key="8">8</button><button class="key" data-key="9">9</button><button class="key op" data-key="×">×</button>
+     <button class="key" data-key="4">4</button><button class="key" data-key="5">5</button><button class="key" data-key="6">6</button><button class="key op" data-key="−">−</button>
+     <button class="key" data-key="1">1</button><button class="key" data-key="2">2</button><button class="key" data-key="3">3</button><button class="key op" data-key="+">+</button>
+     <button class="key" data-key="0" style="grid-column:span 2">0</button><button class="key" data-key=".">.</button><button class="key equal" data-key="=">=</button>
+    </div>
+   </div>
+  </section>
+
+  <section id="Gallery" class="view">
+   <div class="app-head"><button class="back" data-home>←</button><h1>▧ Gallery</h1></div>
+   <div class="app-card glass">
+    <div class="widget-label">YOUR PHOTOS</div>
+    <p class="muted">Select photos to preview them in NOVA.</p>
+    <label class="file-button">＋ Add photos<input id="photoFiles" type="file" accept="image/*" multiple hidden></label>
+    <div class="media-grid" id="photoGrid"></div>
+   </div>
+  </section>
+
+  <section id="Camera" class="view">
+   <div class="app-head"><button class="back" data-home>←</button><h1>◉ Camera</h1></div>
+   <div class="app-card glass">
+    <div class="widget-label">CAMERA</div>
+    <p class="muted" id="cameraStatus">Start camera or choose to take a photo.</p>
+    <video id="cameraVideo" class="camera-video" autoplay playsinline muted></video>
+    <div class="row"><button class="primary" id="startCamera">Start camera</button><button class="secondary" id="takePhoto" disabled>Capture</button></div>
+    <button class="secondary" id="stopCamera" style="width:100%;margin-top:9px">Stop camera</button>
+    <canvas id="cameraCanvas" hidden></canvas>
+    <img id="cameraShot" class="preview" hidden alt="Captured photo">
+    <label class="file-button" style="margin-top:12px">Choose or take photo<input id="cameraFile" type="file" accept="image/*" capture="environment" hidden></label>
+    <div id="cameraPreview"></div>
+    <p class="small">Live camera depends on Safari support and permission. The photo picker is the fallback.</p>
+   </div>
+  </section>
+
+  <section id="Music" class="view">
+   <div class="app-head"><button class="back" data-home>←</button><h1>♫ Music</h1></div>
+   <div class="app-card glass">
+    <div class="widget-label">YOUR LIBRARY</div>
+    <h2 id="trackName">No track selected</h2>
+    <p class="muted">Choose an audio file from your device.</p>
+    <label class="file-button">＋ Choose audio<input id="audioFile" type="file" accept="audio/*" hidden></label>
+    <audio id="player" controls style="width:100%;margin-top:18px"></audio>
+    <p class="small">Music plays locally in your browser.</p>
+   </div>
+  </section>
+
+  <section id="Browser" class="view">
+   <div class="app-head"><button class="back" data-home>←</button><h1>◎ Browser</h1></div>
+   <div class="app-card glass">
+    <div class="widget-label">NOVA WEB</div>
+    <form id="searchForm"><input class="field" id="searchQuery" placeholder="Search or enter a website" autocomplete="url" autocapitalize="none"><button class="primary" style="width:100%;margin-top:10px">Go ↗</button></form>
+    <p class="muted">Websites open in Safari for compatibility.</p>
+    <div class="row"><button class="secondary quick-link" data-url="https://www.google.com">Google</button><button class="secondary quick-link" data-url="https://www.wikipedia.org">Wikipedia</button></div>
+   </div>
+  </section>
+
+  <section id="Settings" class="view">
+   <div class="app-head"><button class="back" data-home>←</button><h1>⚙ Settings</h1></div>
+   <div class="app-card glass">
+    <div class="widget-label">PERSONALISATION</div>
+    <div class="profile-avatar" id="avatarPreview">✦</div>
+    <div class="setting-line"><span>Display name</span><input class="field" id="profileName" style="width:55%" maxlength="22" placeholder="Your name"></div>
+    <div class="setting-line"><span>Avatar symbol</span><input class="field" id="profileAvatar" style="width:55%" maxlength="3" placeholder="✦"></div>
+   </div>
+   <div class="app-card glass">
+    <div class="widget-label">ACCENT COLOUR</div>
+    <div class="swatches">
+     <button class="swatch" data-theme="blue" style="background:linear-gradient(135deg,#59d8ff,#a77bff)"></button>
+     <button class="swatch" data-theme="pink" style="background:linear-gradient(135deg,#ff77c8,#9b7bff)"></button>
+     <button class="swatch" data-theme="green" style="background:linear-gradient(135deg,#67f0c1,#4d9dff)"></button>
+     <button class="swatch" data-theme="orange" style="background:linear-gradient(135deg,#ffb35c,#ff5c9a)"></button>
+    </div>
+    <div class="setting-line"><span>Brightness</span><input id="brightness" type="range" min=".65" max="1.15" step=".01" value="1"></div>
+   </div>
+   <div class="app-card glass">
+    <div class="widget-label">WALLPAPER</div>
+    <div class="wallpapers">
+     <button class="wallpaper-choice" data-wall="blue" style="background:linear-gradient(135deg,#101a42,#174d78,#351b5e)"></button>
+     <button class="wallpaper-choice" data-wall="purple" style="background:linear-gradient(135deg,#21143d,#633b91,#10142c)"></button>
+     <button class="wallpaper-choice" data-wall="green" style="background:linear-gradient(135deg,#092c32,#176d64,#11152e)"></button>
+     <button class="wallpaper-choice" data-wall="sunset" style="background:linear-gradient(135deg,#442044,#a34d65,#17254b)"></button>
+    </div>
+   </div>
+   <div class="app-card glass">
+    <div class="widget-label">SYSTEM</div>
+    <p class="muted">NOVA Mobile 5.0.0</p>
+    <button class="secondary" id="lockNow" style="width:100%">Lock NOVA</button>
+    <p class="small">NOVA is a web interface running on iOS. It does not replace iOS.</p>
+   </div>
+  </section>
+
+  <section id="App Store" class="view">
+   <div class="app-head"><button class="back" data-home>←</button><h1>▣ App Store</h1></div>
+   <div class="app-card glass">
+    <div class="widget-label">NOVA COLLECTION</div>
+    <p class="muted">These are built-in demo additions, not downloads from Apple's App Store.</p>
+    <div id="storeList"></div>
+   </div>
+  </section>
+
+  <section id="Messages" class="view">
+   <div class="app-head"><button class="back" data-home>←</button><h1>✉ Messages</h1></div>
+   <div class="app-card glass"><p class="muted">SMS and iMessage are handled by iOS. NOVA can open the Messages app, but cannot send messages itself.</p><button class="primary" id="openMessages">Open Messages ↗</button></div>
+  </section>
+
+  <section id="Phone" class="view">
+   <div class="app-head"><button class="back" data-home>←</button><h1>⌕ Phone</h1></div>
+   <div class="app-card glass"><p class="muted">Phone calls are handled by iOS.</p><button class="primary" id="openPhone">Open Phone ↗</button></div>
+  </section>
+
+  <section id="About" class="view">
+   <div class="app-head"><button class="back" data-home>←</button><h1>✦ About NOVA</h1></div>
+   <div class="app-card glass"><div class="orb"></div><h2>NOVA Mobile 5.0</h2><p class="muted">A custom mobile interface designed for the iPhone 5s. Built as a lightweight web app.</p><p class="small">Your space. Your system.</p></div>
+  </section>
+ </main>
+</div>
+
+<div class="panel" id="controlPanel">
+ <div class="panel-title">Control Centre</div>
+ <div class="panel-grid">
+  <button class="panel-button" data-toggle="wifi"><span>◉</span><strong>Wi-Fi</strong><small>Visual demo</small></button>
+  <button class="panel-button" data-toggle="bluetooth"><span>ᛒ</span><strong>Bluetooth</strong><small>Visual demo</small></button>
+  <button class="panel-button" data-toggle="focus"><span>☾</span><strong>Focus</strong><small>Visual demo</small></button>
+  <button class="panel-button" id="panelLock"><span>⌑</span><strong>Lock NOVA</strong></button>
+ </div>
+ <div class="app-card glass"><div class="setting-line"><span>Brightness</span><input id="panelBrightness" type="range" min=".65" max="1.15" step=".01" value="1"></div></div>
+ <button class="panel-close" data-close-panel>Close</button>
+</div>
+
+<div class="panel" id="notificationPanel">
+ <div class="panel-title">Notifications</div>
+ <div class="notification glass"><strong>Welcome to NOVA Mobile 5.0</strong><small>Your new NOVA interface is ready.</small></div>
+ <div class="notification glass"><strong>System status</strong><small>All systems are running normally.</small></div>
+ <div class="notification glass"><strong>Tip</strong><small>Use Control Centre to access quick settings.</small></div>
+ <button class="panel-close" data-close-panel>Close</button>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="scanline"></div>
+
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+var currentStream=null;
+var objectURLs=[];
+var toggles={wifi:true,bluetooth:false,focus:false};
+function toast(message){
+ var t=$("toast");t.textContent=message;t.classList.add("show");
+ clearTimeout(window.novaToastTimer);
+ window.novaToastTimer=setTimeout(function(){t.classList.remove("show");},2100);
+}
+function updateClock(){
+ var d=new Date();
+ var time=d.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",hour12:false});
+ var date=d.toLocaleDateString([], {weekday:"long",day:"numeric",month:"long"});
+ $("clock").textContent=time;$("lockClock").textContent=time;
+ $("date").textContent=date;$("lockDate").textContent=date;
+}
+updateClock();setInterval(updateClock,1000);
+
+var profileName=localStorage.getItem("nova5-name")||"WELCOME BACK";
+var profileAvatar=localStorage.getItem("nova5-avatar")||"✦";
+$("greeting").textContent="WELCOME, "+profileName.toUpperCase();
+$("profileName").value=profileName==="WELCOME BACK"?"":profileName;
+$("profileAvatar").value=profileAvatar;
+$("avatarPreview").textContent=profileAvatar;
+
+function showHome(){
+ $("lock").classList.add("hidden");
+ document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
+ $("home").classList.add("active");
+}
+function lockNOVA(){
+ stopCamera();
+ $("lock").classList.remove("hidden");
+ document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
+ $("home").classList.add("active");
+}
+function showApp(name){
+ stopCamera();
+ document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
+ var target=$(name);
+ if(target){target.classList.add("active");window.scrollTo(0,0);}
+ else toast("App not found");
+}
+$("unlock").addEventListener("click",showHome);
+$("lockNow").addEventListener("click",lockNOVA);
+$("panelLock").addEventListener("click",function(){
+ $("controlPanel").classList.remove("open");lockNOVA();
+});
+document.querySelectorAll("[data-app]").forEach(function(button){
+ button.addEventListener("click",function(){showApp(button.getAttribute("data-app"));});
+});
+document.querySelectorAll("[data-home]").forEach(function(button){
+ button.addEventListener("click",function(){showHome();});
+});
+
+function openPanel(id){$(id).classList.add("open");}
+function closePanels(){
+ $("controlPanel").classList.remove("open");
+ $("notificationPanel").classList.remove("open");
+}
+$("openControl").addEventListener("click",function(){openPanel("controlPanel");});
+$("openNotifications").addEventListener("click",function(){openPanel("notificationPanel");});
+document.querySelectorAll("[data-close-panel]").forEach(function(b){
+ b.addEventListener("click",closePanels);
+});
+document.querySelectorAll("[data-toggle]").forEach(function(b){
+ b.addEventListener("click",function(){
+  var key=b.getAttribute("data-toggle");toggles[key]=!toggles[key];
+  b.style.borderColor=toggles[key]?"var(--blue)":"var(--line)";
+  toast(key+" "+(toggles[key]?"enabled":"disabled")+" (visual demo)");
+ });
+});
+
+function saveNote(){
+ localStorage.setItem("nova5-note",$("notesText").value);
+ $("noteStatus").textContent="Saved on this device ✓";
+}
+$("notesText").value=localStorage.getItem("nova5-note")||"";
+$("notesText").addEventListener("input",saveNote);
+$("saveNote").addEventListener("click",function(){saveNote();toast("Note saved");});
+$("clearNote").addEventListener("click",function(){
+ $("notesText").value="";localStorage.removeItem("nova5-note");
+ $("noteStatus").textContent="Note cleared";toast("Note cleared");
+});
+
+var calc="0",stored=null,operator=null,resetCalc=false;
+function drawCalc(){$("calcDisplay").textContent=calc;}
+function calculate(a,b,o){
+ if(o==="+")return a+b;if(o==="−")return a-b;
+ if(o==="×")return a*b;if(o==="÷")return b===0?NaN:a/b;
+ return b;
+}
+$("calcKeys").addEventListener("click",function(e){
+ var k=e.target.getAttribute("data-key");if(!k)return;
+ if(k==="C"){calc="0";stored=null;operator=null;resetCalc=false;}
+ else if(k==="±"){calc=String(-Number(calc));}
+ else if(k==="%"){calc=String(Number(calc)/100);}
+ else if(["+","−","×","÷"].indexOf(k)>=0){stored=Number(calc);operator=k;resetCalc=true;}
+ else if(k==="="){
+  if(operator!==null&&stored!==null){
+   var result=calculate(stored,Number(calc),operator);
+   calc=Number.isFinite(result)?String(Number(result.toPrecision(10))):"Error";
+   operator=null;stored=null;resetCalc=true;
+  }
+ }else if(k==="."){
+  if(resetCalc){calc="0.";resetCalc=false;}
+  else if(calc.indexOf(".")<0)calc+=".";
+ }else{
+  if(resetCalc||calc==="0"||calc==="Error"){calc=k;resetCalc=false;}
+  else if(calc.length<13)calc+=k;
+ }
+ drawCalc();
+});
+
+function addObjectURL(file){
+ var url=URL.createObjectURL(file);objectURLs.push(url);return url;
+}
+$("audioFile").addEventListener("change",function(e){
+ var f=e.target.files[0];if(!f)return;
+ $("player").src=addObjectURL(f);$("trackName").textContent=f.name;
+ $("player").load();toast("Track ready");
+});
+function addPhotos(files,container){
+ Array.prototype.forEach.call(files,function(file){
+  if(file.type.indexOf("image/")!==0)return;
+  var img=document.createElement("img");img.alt=file.name;
+  img.src=addObjectURL(file);container.appendChild(img);
+ });
+}
+$("photoFiles").addEventListener("change",function(e){addPhotos(e.target.files,$("photoGrid"));});
+$("cameraFile").addEventListener("change",function(e){addPhotos(e.target.files,$("cameraPreview"));});
+
+function renderFiles(files){
+ var list=$("fileList");
+ if(!files.length){list.innerHTML='<div class="muted">No files imported yet.</div>';return;}
+ list.innerHTML="";
+ Array.prototype.forEach.call(files,function(file){
+  var item=document.createElement("div");item.className="file-item";
+  var icon=document.createElement("span");icon.textContent=file.type.indexOf("image/")===0?"▧":file.type.indexOf("audio/")===0?"♫":"▤";
+  var name=document.createElement("span");name.textContent=file.name;
+  var open=document.createElement("button");open.className="secondary";open.textContent="Open";
+  open.addEventListener("click",function(){
+   var url=addObjectURL(file);var preview=$("filePreview");preview.innerHTML="";
+   if(file.type.indexOf("image/")===0){
+    var img=document.createElement("img");img.src=url;img.className="preview";img.alt=file.name;preview.appendChild(img);
+   }else if(file.type.indexOf("audio/")===0){
+    var audio=document.createElement("audio");audio.controls=true;audio.src=url;audio.style.width="100%";preview.appendChild(audio);
+   }else if(file.type.indexOf("text/")===0||file.name.match(/\.(txt|md|json|html|css|js)$/i)){
+    var reader=new FileReader();
+    reader.onload=function(){var pre=document.createElement("pre");pre.style.whiteSpace="pre-wrap";pre.style.overflowWrap="anywhere";pre.textContent=String(reader.result).slice(0,20000);preview.appendChild(pre);};
+    reader.readAsText(file);
+   }else{
+    var p=document.createElement("p");p.className="muted";p.textContent="This file type cannot be previewed here. You can still select it from your iPhone.";preview.appendChild(p);
+   }
+  });
+  item.appendChild(icon);item.appendChild(name);item.appendChild(open);list.appendChild(item);
+ });
+}
+$("filePicker").addEventListener("change",function(e){renderFiles(e.target.files);});
+
+function stopCamera(){
+ if(currentStream){currentStream.getTracks().forEach(function(track){track.stop();});currentStream=null;}
+ if($("cameraVideo"))$("cameraVideo").srcObject=null;
+ if($("takePhoto"))$("takePhoto").disabled=true;
+}
+$("startCamera").addEventListener("click",function(){
+ var status=$("cameraStatus");
+ if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+  status.textContent="Live camera is unavailable here. Use Choose or take photo below.";
+  return;
+ }
+ stopCamera();
+ navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"},audio:false}).then(function(stream){
+  currentStream=stream;$("cameraVideo").srcObject=stream;
+  $("cameraVideo").play();$("takePhoto").disabled=false;
+  status.textContent="Camera is active.";
+ }).catch(function(){
+  status.textContent="Camera could not start. Check Safari permission or use the photo picker.";
+ });
+});
+$("takePhoto").addEventListener("click",function(){
+ var video=$("cameraVideo"),canvas=$("cameraCanvas");
+ if(!video.videoWidth)return;
+ canvas.width=video.videoWidth;canvas.height=video.videoHeight;
+ canvas.getContext("2d").drawImage(video,0,0);
+ $("cameraShot").src=canvas.toDataURL("image/jpeg",.88);
+ $("cameraShot").hidden=false;toast("Photo captured");
+});
+$("stopCamera").addEventListener("click",function(){stopCamera();$("cameraStatus").textContent="Camera stopped.";});
+
+$("searchForm").addEventListener("submit",function(e){
+ e.preventDefault();var q=$("searchQuery").value.trim();if(!q)return;
+ var url;
+ if(/^https?:\/\//i.test(q))url=q;
+ else if(/^[a-z0-9.-]+\.[a-z]{2,}([/:?#].*)?$/i.test(q)&&q.indexOf(" ")<0)url="https://"+q;
+ else url="https://www.google.com/search?q="+encodeURIComponent(q);
+ window.location.href=url;
+});
+document.querySelectorAll(".quick-link").forEach(function(b){
+ b.addEventListener("click",function(){window.location.href=b.getAttribute("data-url");});
+});
+$("openMessages").addEventListener("click",function(){window.location.href="sms:";});
+$("openPhone").addEventListener("click",function(){window.location.href="tel:";});
+
+var themes={
+ blue:["#59d8ff","#a77bff"],pink:["#ff77c8","#9b7bff"],
+ green:["#67f0c1","#4d9dff"],orange:["#ffb35c","#ff5c9a"]
+};
+function setTheme(name){
+ var c=themes[name];if(!c)return;
+ document.documentElement.style.setProperty("--blue",c[0]);
+ document.documentElement.style.setProperty("--purple",c[1]);
+ localStorage.setItem("nova5-theme",name);
+}
+document.querySelectorAll("[data-theme]").forEach(function(b){
+ b.addEventListener("click",function(){setTheme(b.getAttribute("data-theme"));toast("Accent updated");});
+});
+var savedTheme=localStorage.getItem("nova5-theme");if(savedTheme)setTheme(savedTheme);
+
+var wallpapers={
+ blue:"radial-gradient(ellipse at 15% 10%,#26366c,transparent 45%),radial-gradient(ellipse at 90% 70%,#40205f,transparent 45%),linear-gradient(155deg,#080914,#10132a)",
+ purple:"radial-gradient(ellipse at 20% 20%,#543080,transparent 48%),linear-gradient(145deg,#090817,#24123c,#080914)",
+ green:"radial-gradient(ellipse at 15% 15%,#145b52,transparent 45%),linear-gradient(145deg,#07191e,#102d36,#080914)",
+ sunset:"radial-gradient(ellipse at 15% 15%,#a34d65,transparent 45%),linear-gradient(145deg,#20132c,#442044,#10152c)"
+};
+function setWallpaper(name){
+ if(wallpapers[name]){document.documentElement.style.setProperty("--wallpaper",wallpapers[name]);localStorage.setItem("nova5-wall",name);}
+}
+document.querySelectorAll("[data-wall]").forEach(function(b){
+ b.addEventListener("click",function(){setWallpaper(b.getAttribute("data-wall"));toast("Wallpaper changed");});
+});
+var savedWall=localStorage.getItem("nova5-wall");if(savedWall)setWallpaper(savedWall);
+
+$("brightness").addEventListener("input",function(e){
+ document.getElementById("device").style.filter="brightness("+e.target.value+")";
+ $("panelBrightness").value=e.target.value;
+});
+$("panelBrightness").addEventListener("input",function(e){
+ document.getElementById("device").style.filter="brightness("+e.target.value+")";
+ $("brightness").value=e.target.value;
+});
+$("profileName").addEventListener("change",function(){
+ profileName=$("profileName").value.trim()||"WELCOME BACK";
+ localStorage.setItem("nova5-name",profileName);
+ $("greeting").textContent="WELCOME, "+profileName.toUpperCase();
+});
+$("profileAvatar").addEventListener("change",function(){
+ profileAvatar=$("profileAvatar").value.trim()||"✦";
+ $("avatarPreview").textContent=profileAvatar;
+ localStorage.setItem("nova5-avatar",profileAvatar);
+});
+
+var storeApps=[
+ {name:"Weather",icon:"☀",desc:"A weather app concept"},
+ {name:"Calendar",icon:"▦",desc:"A simple calendar concept"},
+ {name:"Tasks",icon:"✓",desc:"A personal task list concept"}
+];
+var installed=JSON.parse(localStorage.getItem("nova5-installed")||"[]");
+function renderStore(){
+ var list=$("storeList");list.innerHTML="";
+ storeApps.forEach(function(app){
+  var row=document.createElement("div");row.className="store-app";
+  var icon=document.createElement("span");icon.className="store-icon";icon.textContent=app.icon;
+  var info=document.createElement("div");info.innerHTML="<strong>"+app.name+"</strong><div class='small'>"+app.desc+"</div>";
+  var button=document.createElement("button");button.className="primary";
+  button.textContent=installed.indexOf(app.name)>=0?"Added":"Add";
+  button.addEventListener("click",function(){
+   if(installed.indexOf(app.name)<0){installed.push(app.name);localStorage.setItem("nova5-installed",JSON.stringify(installed));renderStore();toast(app.name+" added");}
+   else toast("Already added");
+  });
+  row.appendChild(icon);row.appendChild(info);row.appendChild(button);list.appendChild(row);
+ });
+}
+renderStore();
+
+$("panelBrightness").value=1;
+var boot=$("boot");
+setTimeout(function(){
+ boot.style.opacity="0";
+ setTimeout(function(){boot.style.display="none";},750);
+},1700);
+})();
+</script>
+</body>
+</html>
